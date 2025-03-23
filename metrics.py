@@ -19,6 +19,7 @@ class MetricResults:
         self.precision = binary_precision(pred_labels, labels)
         self.recall = binary_recall(pred_labels, labels)
         self.f1_score = binary_f1_score(pred_labels, labels)
+        
         self.auroc = binary_auroc(mse_losses.float(), labels.int())
         self.auprc = binary_auprc(mse_losses.float(), labels.int())
         
