@@ -59,7 +59,7 @@ if __name__ == "__main__":
     import torch
 
     mse_losses = torch.tensor([0.1, 0.4, 0.35, 0.8])
-    pred_labels = torch.tensor([0, 1, 0, 1])
+    pred_labels = torch.tensor([0, 0, 0, 1])
     labels = torch.tensor([0, 1, 0, 1])
 
     
