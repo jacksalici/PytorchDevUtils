@@ -44,13 +44,25 @@ class ShapeHookManager:
             
             def create_hook_fn(module_name, module_id):
                 def hook_fn(module, input, output):
+                    # print the input shape
+                    if isinstance(input, torch.Tensor):  
+                        print(f"{module_name: <20} \tinput shape: {str(input.shape): <40}", end="")
+                        
+                    elif isinstance(input, tuple) and all(isinstance(i, torch.Tensor) for i in input):
+                        shapes = [i.shape for i in input]
+                        print(f"{module_name: <20} \tinput shapes: {str(shapes): <40}", end="")
+    
+                    else:
+                        print(f"{module_name: <20} \tinput type: {str(type(input)): <40}", end="")
+                    
+                    
                     if isinstance(output, torch.Tensor):
-                        print(f"{module_name} output shape: {output.shape}")
+                        print(f"output shape: {str(output.shape): <40}")
                     elif isinstance(output, tuple) and all(isinstance(o, torch.Tensor) for o in output):
                         shapes = [o.shape for o in output]
-                        print(f"{module_name} output shapes: {shapes}")
+                        print(f"output shapes: {str(shapes): <40}")
                     else:
-                        print(f"{module_name} output type: {type(output)}")
+                        print(f"output type: {str(type(output)): <40}")
                     
                     # if one_time, remove the hook on the module after first call
                     if self._one_time_mode and model_id in self._hooks and module_id in self._hooks[model_id]:
