@@ -1,0 +1,3 @@
+# PytorchDebugUtils
+
+Utilities for debugging Pytorch apps. Print shape hooks, handy logger and metrics.
