@@ -11,9 +11,6 @@ class MetricResults:
     auprc: float = 0.0 
     
     def measure(self, mse_losses, pred_labels, labels, adjust=False, avoid_curves = False):
-        if adjust:
-            from utils.tools import adjustment
-            labels, pred_labels = adjustment(labels, pred_labels)
             
         self.accuracy = binary_accuracy(pred_labels, labels)
         self.precision = binary_precision(pred_labels, labels)
