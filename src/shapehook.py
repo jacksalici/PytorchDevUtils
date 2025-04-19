@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from typing import Dict
 
-class ShapeHookManager:
+class ShapeHook:
     """
     Singleton class to manage PyTorch hooks that print tensor shapes.
     """
@@ -10,7 +10,7 @@ class ShapeHookManager:
     
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(ShapeHookManager, cls).__new__(cls)
+            cls._instance = super(ShapeHook, cls).__new__(cls)
             cls._instance._initialized = False
         return cls._instance
     
@@ -45,24 +45,23 @@ class ShapeHookManager:
             def create_hook_fn(module_name, module_id):
                 def hook_fn(module, input, output):
                     # print the input shape
+                    print("ShapeHook for ", end="")
                     if isinstance(input, torch.Tensor):  
-                        print(f"{module_name: <20} \tinput shape: {str(input.shape): <40}", end="")
-                        
+                        print(f"{module_name: <15} in shape: {str(list(input.shape)): <30}", end="")
                     elif isinstance(input, tuple) and all(isinstance(i, torch.Tensor) for i in input):
-                        shapes = [i.shape for i in input]
-                        print(f"{module_name: <20} \tinput shapes: {str(shapes): <40}", end="")
-    
+                        shapes = [list(i.shape) for i in input]
+                        print(f"{module_name: <15} in shapes: {str(shapes): <30}", end="")
                     else:
-                        print(f"{module_name: <20} \tinput type: {str(type(input)): <40}", end="")
+                        print(f"{module_name: <15} in type: {str(type(input)): <30}", end="")
                     
                     
                     if isinstance(output, torch.Tensor):
-                        print(f"output shape: {str(output.shape): <40}")
+                        print(f"out shape: {str(list(output.shape)): <30}")
                     elif isinstance(output, tuple) and all(isinstance(o, torch.Tensor) for o in output):
-                        shapes = [o.shape for o in output]
-                        print(f"output shapes: {str(shapes): <40}")
+                        shapes = [list(o.shape) for o in output]
+                        print(f"out shapes: {str(shapes): <30}")
                     else:
-                        print(f"output type: {str(type(output)): <40}")
+                        print(f"out type: {str(type(output)): <30}")
                     
                     # if one_time, remove the hook on the module after first call
                     if self._one_time_mode and model_id in self._hooks and module_id in self._hooks[model_id]:
@@ -105,7 +104,7 @@ if __name__ == "__main__":
         nn.Linear(32 * 16 * 16, 10)
     )
     
-    hook_manager = ShapeHookManager()
+    hook_manager = ShapeHook()
     
     hook_manager.register_hooks(model, one_time=True)
     
