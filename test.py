@@ -1,5 +1,5 @@
-from src.logger import Logger
-from src.shapehook import ShapeHook
+from pytorch_dev_utils.logger import Logger
+from pytorch_dev_utils.shapehook import ShapeHook
 
 import torch
 from torch import nn

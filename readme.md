@@ -63,7 +63,14 @@ Wrapper for the most useful metrics. Work in progress.
 
 ## Installation 🚀
 
-Copy and paste the code in your project, each file is self contained. Mayebe in the future I will pack it better.
+Code is not yet available on PyPI. You can install it from source:
+
+```bash
+git clone https://github.com/jacksalici/PytorchDevUtils
+cd PytorchDevUtils
+source activate your_env 
+pip install -e . # use -e for editable install, if you want the code to be updated automatically
+```
 
 ## License
 MIT
